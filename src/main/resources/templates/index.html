@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
 <input id="text" type="text"/>
 <button onclick="send()">Send</button>
 <button onclick="closeWebSocket()">Close</button>
@@ -43,6 +42,11 @@
         //接收信息
         websocket.onmessage = function (msg) {
             console.log(msg.data);
+            var message = $("#message");
+            var input = $("<br/><input type=\"text\"/>");
+            input.prop("name", "aaa");
+            input.prop("value", msg.data);
+            message.append(input);
         }
 
     }

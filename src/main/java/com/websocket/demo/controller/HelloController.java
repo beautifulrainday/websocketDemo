@@ -21,6 +21,6 @@ public class HelloController {
         if(!bool){
             return "fail";
         }
-        return "succes";
+        return "success";
     }
 }
