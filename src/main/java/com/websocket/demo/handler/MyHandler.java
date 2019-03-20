@@ -40,7 +40,7 @@ public class MyHandler implements WebSocketHandler {
     public void handleMessage(WebSocketSession webSocketSession, WebSocketMessage<?> webSocketMessage) throws Exception {
         JSONObject jsonobject = JSONObject.fromObject(webSocketMessage.getPayload());
         System.out.println(jsonobject.get("id"));
-        System.out.println(jsonobject.get("message")+":来自"+(String)webSocketSession.getAttributes().get("WEBSOCKET_USERID")+"的消息");
+        System.out.println(jsonobject.get("message") + ":来自" + getClientId(webSocketSession) + "的消息");
         sendMessageToUser(jsonobject.get("id")+"",new TextMessage("服务器收到了，hello!"));
         sendMessageToAllUsers(new TextMessage("这是一条给所有用户的公告"));
     }
