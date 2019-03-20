@@ -13,11 +13,11 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 
-    var userID = "888";
+    //var userID = "888";
+    var userID = Math.round(Math.random()*10);
     var websocket = null;
 
     $(function () {
-        alert("进来就执行");
         connectWebSocket();
     })
 

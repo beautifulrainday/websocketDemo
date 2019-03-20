@@ -96,12 +96,14 @@ public class MyHandler implements WebSocketHandler {
         }
         System.out.println("连接出错");
         users.remove(getClientId(session));
+        System.out.println("当前在线人数还剩下："+users.size());
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) throws Exception {
+    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) {
         System.out.println("连接已关闭：" + closeStatus);
         users.remove(getClientId(webSocketSession));
+        System.out.println("当前在线人数还剩下："+users.size());
     }
 
     @Override
@@ -114,12 +116,13 @@ public class MyHandler implements WebSocketHandler {
      * @param session
      * @return
      */
-    private Integer getClientId(WebSocketSession session) {
+    private String getClientId(WebSocketSession session) {
         try {
-            Integer clientId = (Integer) session.getAttributes().get("WEBSOCKET_USERID");
-            return clientId;
+            //Integer clientId = (Integer) session.getAttributes().get("WEBSOCKET_USERID");
+            String ID = session.getUri().toString().split("ID=")[1];
+            return ID;
         } catch (Exception e) {
-            return -1;
+            return null;
         }
     }
 }
