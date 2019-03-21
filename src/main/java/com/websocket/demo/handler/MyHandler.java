@@ -33,7 +33,7 @@ public class MyHandler implements WebSocketHandler {
             System.out.println(ID);
             System.out.println(session);
         }
-        System.out.println("当前在线人数："+users.size());
+        System.out.println("当前在线人数：" + users.size());
     }
 
     @Override
@@ -41,12 +41,13 @@ public class MyHandler implements WebSocketHandler {
         JSONObject jsonobject = JSONObject.fromObject(webSocketMessage.getPayload());
         System.out.println(jsonobject.get("id"));
         System.out.println(jsonobject.get("message") + ":来自" + getClientId(webSocketSession) + "的消息");
-        sendMessageToUser(jsonobject.get("id")+"",new TextMessage("服务器收到了，hello!"));
+        sendMessageToUser(jsonobject.get("id") + "", new TextMessage("服务器收到了，hello!"));
         sendMessageToAllUsers(new TextMessage("这是一条给所有用户的公告"));
     }
 
     /**
      * 发送信息给指定用户
+     *
      * @param clientId
      * @param message
      * @return
@@ -67,6 +68,7 @@ public class MyHandler implements WebSocketHandler {
 
     /**
      * 广播信息
+     *
      * @param message
      * @return
      */
@@ -86,7 +88,7 @@ public class MyHandler implements WebSocketHandler {
             }
         }
 
-        return  allSendSuccess;
+        return allSendSuccess;
     }
 
     @Override
@@ -96,14 +98,14 @@ public class MyHandler implements WebSocketHandler {
         }
         System.out.println("连接出错");
         users.remove(getClientId(session));
-        System.out.println("当前在线人数还剩下："+users.size());
+        System.out.println("当前在线人数还剩下：" + users.size());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus closeStatus) {
         System.out.println("连接已关闭：" + closeStatus);
         users.remove(getClientId(webSocketSession));
-        System.out.println("当前在线人数还剩下："+users.size());
+        System.out.println("当前在线人数还剩下：" + users.size());
     }
 
     @Override
@@ -113,6 +115,7 @@ public class MyHandler implements WebSocketHandler {
 
     /**
      * 获取用户标识
+     *
      * @param session
      * @return
      */

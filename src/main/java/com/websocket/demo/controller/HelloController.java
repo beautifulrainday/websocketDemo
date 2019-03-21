@@ -18,9 +18,11 @@ public class HelloController {
     @ResponseBody
     public String sendMsg() {
         boolean bool = new MyHandler().sendMessageToAllUsers(new TextMessage("手动推送的消息"));
-        if(!bool){
+        if (!bool) {
             return "fail";
         }
         return "success";
     }
+
+    //@GetMapping(value = "sendMsgToPeopleInRoom")
 }

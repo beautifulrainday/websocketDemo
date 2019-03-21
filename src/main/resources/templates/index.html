@@ -4,63 +4,80 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<input id="text" type="text"/>
-<button onclick="send()">Send</button>
-<button onclick="closeWebSocket()">Close</button>
+要发送的内容：<input id="text" type="text"/></br>
+<input id="userId" type="text"/>
+<input id="roomNo" type="text"/>
+<button onclick="set()">设定用户id和房间号</button>
+</br>
+<button onclick="connectWebSocket()">连接服务器</button>
+</br>
+<!--<button onclick="send()">Send</button>
+<button onclick="closeWebSocket()">Close</button>-->
 <div id="message">
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-
-    //var userID = "888";
-    var userID = Math.round(Math.random()*10);
+    var userID = null;
     var websocket = null;
+    var roomNo = null;
+    var flag = 0;
 
-    $(function () {
+    /*$(function () {
         connectWebSocket();
-    })
-
+    })*/
+    function set() {
+        userID = $("#userId").val();
+        roomNo = $("#roomNo").val();
+    }
     //建立WebSocket连接
     function connectWebSocket() {
+        if (null != userID && userID != "" && null != roomNo && roomNo != "") {
+            console.log("开始...");
+            //建立webSocket连接
+            //websocket = new WebSocket("ws://127.0.0.1:8080/myHandler/ID=" + userID);
+            websocket = new WebSocket("ws://127.0.0.1:8080/roomHandler/roomNo=" + roomNo + "/userId=" + userID);
 
-        console.log("开始...");
-
-        //建立webSocket连接
-        websocket = new WebSocket("ws://127.0.0.1:8080/myHandler/ID=" + userID);
-
-        //打开webSokcet连接时，回调该函数
-        websocket.onopen = function () {
-            console.log("onpen");
+            //打开webSokcet连接时，回调该函数
+            websocket.onopen = function () {
+                console.log("onpen");
+                var sendButton = $("<button onclick=\"send()\">Send</button>");
+                var closeWebSocketButton = $("<button onclick=\"closeWebSocket()\">Close</button>");
+                var message = $("#message");
+                if (flag == 0) {
+                    message.append(sendButton);
+                    message.append(closeWebSocketButton);
+                }
+                flag = 1;
+            }
+            //关闭webSocket连接时，回调该函数
+            websocket.onclose = function () {
+                //关闭连接
+                console.log("onclose");
+            }
+            //接收信息
+            websocket.onmessage = function (msg) {
+                console.log(msg.data);
+                /*var message = $("#message");
+                var input = $("<br/><input type=\"text\"/>");
+                input.prop("name", "aaa");
+                input.prop("value", msg.data);
+                message.append(input);*/
+                alert(msg.data);
+            }
+        } else {
+            alert("error");
         }
-
-        //关闭webSocket连接时，回调该函数
-        websocket.onclose = function () {
-            //关闭连接
-            console.log("onclose");
-        }
-
-        //接收信息
-        websocket.onmessage = function (msg) {
-            console.log(msg.data);
-            var message = $("#message");
-            var input = $("<br/><input type=\"text\"/>");
-            input.prop("name", "aaa");
-            input.prop("value", msg.data);
-            message.append(input);
-        }
-
     }
-
     //发送消息
     function send() {
         var postValue = {};
         postValue.id = userID;
+        postValue.room = roomNo;
         postValue.message = $("#text").val();
         var jsonPostValue = JSON.stringify(postValue);
         websocket.send(jsonPostValue);
         console.log(jsonPostValue + "发送");
     }
-
     //关闭连接
     function closeWebSocket() {
         if (websocket != null) {
