@@ -52,9 +52,9 @@ public class RoomHandler implements WebSocketHandler {
         Map<String, WebSocketSession> map = roomUsers.get(roomNo);
         for (Map.Entry<String, WebSocketSession> m : map.entrySet()) {
             sendMessageToUser(m.getKey(),
-                    new TextMessage(getRoomNo(webSocketSession) + "房间的人听好了," + jsonobject.get("id") + "说jasiojfsoidjf"));
+                    new TextMessage(jsonobject.get("id") + "：" + jsonobject.get("message")));
         }
-
+        System.out.println(getRoomNo(webSocketSession) + "房间的," + jsonobject.get("id") + "说" + jsonobject.get("message"));
     }
 
     /**

@@ -62,7 +62,12 @@
                 input.prop("name", "aaa");
                 input.prop("value", msg.data);
                 message.append(input);*/
-                alert(msg.data);
+                //alert(msg.data);
+                var message = $("#message");
+                var label = $("<br/><label></label>");
+                label.prop("name", "aaa");
+                label.prop("innerHTML", msg.data);
+                message.append(label);
             }
         } else {
             alert("error");
