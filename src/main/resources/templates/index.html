@@ -53,6 +53,10 @@
             websocket.onclose = function () {
                 //关闭连接
                 console.log("onclose");
+                var message = $("#message");
+                var label = $("<br/><label></label>");
+                label.prop("innerHTML", '连接已断开');
+                message.append(label);
             }
             //接收信息
             websocket.onmessage = function (msg) {
