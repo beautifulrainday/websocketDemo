@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<body>
 要发送的内容：<input id="text" type="text"/></br>
 <input id="userId" type="text"/>
 <input id="roomNo" type="text"/>
@@ -29,6 +30,7 @@
         userID = $("#userId").val();
         roomNo = $("#roomNo").val();
     }
+
     //建立WebSocket连接
     function connectWebSocket() {
         if (null != userID && userID != "" && null != roomNo && roomNo != "") {
@@ -77,6 +79,7 @@
             alert("error");
         }
     }
+
     //发送消息
     function send() {
         var postValue = {};
@@ -87,6 +90,7 @@
         websocket.send(jsonPostValue);
         console.log(jsonPostValue + "发送");
     }
+
     //关闭连接
     function closeWebSocket() {
         if (websocket != null) {
